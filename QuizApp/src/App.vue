@@ -1,8 +1,11 @@
 <template>
-  <p>startin..</p>
-  <RouterView />
+  <div>
+    <Quiz></Quiz>
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Quiz from "./components/Quizz.vue";
+</script>
 
 <style scoped></style>
