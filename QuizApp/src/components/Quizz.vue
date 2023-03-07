@@ -3,7 +3,7 @@
   =======================
   {{ answersArray }} -->
   <div>
-    <Question :question="questionData.question"></Question>
+    <Question :question="questionData"></Question>
     <p>
       <Answers :answers="answersArray"></Answers>
     </p>
@@ -36,7 +36,7 @@ async function getQuestionsData() {
 
   let result = 0;
   responseData.value = resultsList;
-  questionData.value = resultsList[result];
+  questionData.value = resultsList[result].question;
   answersArray.value = resultsList[result].incorrect_answers;
   answersArray.value.push(resultsList[result].correct_answer);
 
