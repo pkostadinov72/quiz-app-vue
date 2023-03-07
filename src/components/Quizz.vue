@@ -3,11 +3,15 @@
   =======================
   {{ answersArray }} -->
   <div>
-    <Question :question="questionData"></Question>
+    <Question :question="question"></Question>
     <p>
-      <Answers :answers="answersArray"></Answers>
+      <Answers
+        :answers="answers"
+        @submit-answer="handleAnswerSubmission($event)"
+      ></Answers>
     </p>
   </div>
+  {{ `Correct answer: ${correctAnswer}` }}
 </template>
 
 <script setup lang="ts">
@@ -18,32 +22,47 @@ import { ref } from "vue";
 import Answers from "./Answers.vue";
 import Question from "./Question.vue";
 
-type questionForm = {
+type Quiz = {
   question: string;
   correct_answer: string;
   incorrect_answers: string[];
 };
 
-const responseData = ref<questionForm[]>([]);
-const answersArray = ref<string[]>([]);
-const questionData = ref<questionForm[]>([]);
+const answers = ref<string[]>([]);
+const question = ref<string>();
+let currentQuizId = 0;
+let quizzes: Quiz[];
+
+let correctAnswer: string;
+
+function handleAnswerSubmission(answer: string) {
+  if (answer === correctAnswer) {
+    alert("Correct answer!!!");
+  } else {
+    alert("Wrong answer");
+  }
+  nextQuestion();
+}
 
 async function getQuestionsData() {
   const response = await axios.get(
     "https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple"
   );
-  const resultsList = response.data.results;
+  quizzes = response.data.results;
+  nextQuestion();
+}
 
-  let result = 0;
-  responseData.value = resultsList;
-  questionData.value = resultsList[result].question;
-  answersArray.value = resultsList[result].incorrect_answers;
-  answersArray.value.push(resultsList[result].correct_answer);
+function nextQuestion() {
+  const currentQuiz = quizzes[currentQuizId];
+  question.value = currentQuiz.question;
+  correctAnswer = currentQuiz.correct_answer;
+  answers.value = [...currentQuiz.incorrect_answers, correctAnswer];
 
-  function shuffle(array: any) {
-    array.value.sort(() => Math.random() - 0.5);
+  function shuffle(array: string[]) {
+    array.sort(() => Math.random() - 0.5);
   }
-  shuffle(answersArray);
+  shuffle(answers.value); // array.value is a must, bcs it will be shown in template
+  currentQuizId++; // currentQuizId += 1; currentQuizId = currentQuizId + 1;
 }
 getQuestionsData();
 </script>
