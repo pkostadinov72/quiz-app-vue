@@ -1,7 +1,4 @@
 <template>
-  <!-- {{ questionData.correct_answer }}
-  =======================
-  {{ answersArray }} -->
   <div>
     <Question :question="question"></Question>
     <p>
