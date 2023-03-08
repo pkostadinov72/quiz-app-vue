@@ -1,5 +1,6 @@
 <template>
   <button
+    :class="{ correct: isCorrect }"
     class="btnAnswer"
     v-for="item in answers"
     @click="emits('submitAnswer', item)"
@@ -9,8 +10,11 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["answers"]);
-const emits = defineEmits(["submitAnswer", "changeStyle"]);
+const props = defineProps<{
+  answers?: string[];
+  isCorrect?: boolean;
+}>();
+const emits = defineEmits(["submitAnswer"]);
 </script>
 
 <style>
@@ -36,10 +40,10 @@ const emits = defineEmits(["submitAnswer", "changeStyle"]);
 }
 
 .correct {
-  background: #00ff77;
+  background: rgb(24, 223, 24);
 }
 
 .wrong {
-  background: #ed0739;
+  background: red;
 }
 </style>

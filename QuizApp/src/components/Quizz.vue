@@ -3,6 +3,7 @@
     <Question :question="question"></Question>
     <p>
       <Answers
+        :is-correct="(itsCorrect as boolean)"
         :answers="answers"
         @submit-answer="handleAnswerSubmission($event)"
       ></Answers>
@@ -28,16 +29,19 @@ const answers = ref<string[]>([]);
 const question = ref<string>();
 let currentQuizId = 0;
 let quizzes: Quiz[];
-
+const itsCorrect = ref<boolean>(false);
 let correctAnswer: string;
 
 function handleAnswerSubmission(answer: string) {
   if (answer === correctAnswer) {
-    alert("Correct answer!!!");
+    itsCorrect.value = true;
   } else {
-    alert("Wrong answer");
+    itsCorrect.value = false;
   }
-  nextQuestion();
+  function delay(time: number) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+  delay(1000).then(() => nextQuestion());
 }
 
 async function getQuestionsData() {
@@ -53,6 +57,7 @@ function nextQuestion() {
   question.value = currentQuiz.question;
   correctAnswer = currentQuiz.correct_answer;
   answers.value = [...currentQuiz.incorrect_answers, correctAnswer];
+  itsCorrect.value = false;
 
   function shuffle(array: string[]) {
     array.sort(() => Math.random() - 0.5);

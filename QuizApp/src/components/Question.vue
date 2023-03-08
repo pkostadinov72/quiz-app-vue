@@ -3,7 +3,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["question"]);
+const props = defineProps<{
+  question?: string;
+}>();
 </script>
 
 <style>
