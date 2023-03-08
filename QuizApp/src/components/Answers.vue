@@ -1,6 +1,5 @@
 <template>
   <button
-    :class="{ correct: isCorrect }"
     class="btnAnswer"
     v-for="item in answers"
     @click="emits('submitAnswer', item)"
@@ -12,7 +11,6 @@
 <script setup lang="ts">
 const props = defineProps<{
   answers?: string[];
-  isCorrect?: boolean;
 }>();
 const emits = defineEmits(["submitAnswer"]);
 </script>
