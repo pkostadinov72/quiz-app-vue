@@ -16,22 +16,23 @@ const emits = defineEmits(["submitAnswer", "changeStyle"]);
 <style>
 .btnAnswer {
   display: inline-block;
-  outline: 0;
+  outline: none;
   cursor: pointer;
-  text-align: center;
-  border: 1px solid #babfc3;
-  padding: 7px 16px;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 12px 24px;
   margin: 8px;
-  min-height: 36px;
-  min-width: 36px;
-  color: #202223;
-  background: #ffffff;
-  border-radius: 4px;
-  font-weight: 500;
-  font-size: 14px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 0px 0px;
+  border: 0;
+  color: #3a4149;
+  background: #e7ebee;
+  line-height: 1.15;
+  font-size: 15px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.btnAnswer:hover {
+  background-color: #c7c7c7;
 }
 
 .correct {
