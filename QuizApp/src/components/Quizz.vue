@@ -1,17 +1,22 @@
 <template>
-  <h2>Question {{ currentQuizId }} out of {{ quizzes.length }}</h2>
-  <h3 class="showCorrectCount">
-    Correct answers {{ correctCount }} out of {{ quizzes.length }}
-  </h3>
-  <div>
-    <Question :question="question"></Question>
-    <p>
-      <Answers
-        :answers="answers"
-        @submit-answer="handleAnswerSubmission($event)"
-      ></Answers>
-    </p>
-  </div>
+  <main>
+    <h2 :class="{ hidden: didQuizEnd }">
+      Question {{ currentQuizId }} out of {{ quizzes.length }}
+    </h2>
+    <h3 class="hidden">
+      Correct answers {{ correctCount }} out of {{ quizzes.length }}
+    </h3>
+    <div>
+      <Question :quiz-ended="didQuizEnd" :question="question"></Question>
+      <p>
+        <Answers
+          :quiz-ended="didQuizEnd"
+          :answers="answers"
+          @submit-answer="handleAnswerSubmission($event)"
+        ></Answers>
+      </p>
+    </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -33,10 +38,13 @@ const question = ref<string>();
 const currentQuizId = ref<number>(0);
 const quizzes = ref<Quiz[]>([]);
 const correctCount = ref<number>(0);
+const didQuizEnd = ref<boolean>(false);
 let correctAnswer: string;
 
 function handleAnswerSubmission(answer: string) {
-  console.log(answer);
+  console.log(question.value);
+  console.log(`You clicked ${answer} , correct answer is ${correctAnswer}`);
+  console.log(`-------------------------------------------------------------`);
   if (answer === correctAnswer) {
     correctCount.value++;
   }
@@ -57,7 +65,11 @@ async function getQuestionsData() {
 
 function nextQuestion() {
   if (currentQuizId.value === quizzes.value.length) {
+    didQuizEnd.value = true;
     console.log("Quiz is done");
+    console.log(
+      `Correct answers ${correctCount.value} out of ${quizzes.value.length}`
+    );
   } else {
     const currentQuiz = quizzes.value[currentQuizId.value];
     question.value = currentQuiz.question;
@@ -74,7 +86,7 @@ getQuestionsData();
 </script>
 
 <style>
-.showCorrectCount {
+.hidden {
   visibility: hidden;
 }
 </style>

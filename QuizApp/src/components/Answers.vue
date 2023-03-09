@@ -1,5 +1,6 @@
 <template>
   <button
+    :class="{ didQuizEnd: quizEnded }"
     class="btnAnswer"
     v-for="item in answers"
     @click="emits('submitAnswer', item)"
@@ -11,6 +12,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   answers?: string[];
+  quizEnded: boolean;
 }>();
 const emits = defineEmits(["submitAnswer"]);
 </script>
@@ -37,11 +39,7 @@ const emits = defineEmits(["submitAnswer"]);
   background-color: #c7c7c7;
 }
 
-.correct {
-  background: rgb(24, 223, 24);
-}
-
-.wrong {
-  background: red;
+.didQuizEnd {
+  visibility: hidden;
 }
 </style>

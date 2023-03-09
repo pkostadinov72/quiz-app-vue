@@ -1,10 +1,13 @@
 <template>
-  <div class="questionText">{{ question }}</div>
+  <div :class="{ didQuizEnd: quizEnded }" class="questionText">
+    {{ question }}
+  </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   question?: string;
+  quizEnded: boolean;
 }>();
 </script>
 
@@ -14,5 +17,9 @@ const props = defineProps<{
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 1.5rem;
   margin: 10px;
+}
+
+.didQuizEnd {
+  visibility: hidden;
 }
 </style>
