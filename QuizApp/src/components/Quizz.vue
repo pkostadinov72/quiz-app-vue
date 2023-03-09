@@ -3,9 +3,9 @@
     <h2 :class="{ hidden: didQuizEnd }">
       Question {{ currentQuizId }} out of {{ quizzes.length }}
     </h2>
-    <h3 class="hidden">
+    <h1 :class="{ shown: didQuizEnd }" class="correctCount">
       Correct answers {{ correctCount }} out of {{ quizzes.length }}
-    </h3>
+    </h1>
     <div>
       <Question :quiz-ended="didQuizEnd" :question="question"></Question>
       <p>
@@ -86,6 +86,17 @@ getQuestionsData();
 </script>
 
 <style>
+.correctCount {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin: 10px;
+  visibility: hidden;
+}
+
+.shown {
+  visibility: visible;
+}
+
 .hidden {
   visibility: hidden;
 }
