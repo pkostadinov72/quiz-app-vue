@@ -1,5 +1,8 @@
 <template>
   <h2>Question {{ currentQuizId }} out of {{ quizzes.length }}</h2>
+  <h3 class="showCorrectCount">
+    Correct answers {{ correctCount }} out of {{ quizzes.length }}
+  </h3>
   <div>
     <Question :question="question"></Question>
     <p>
@@ -33,10 +36,9 @@ const correctCount = ref<number>(0);
 let correctAnswer: string;
 
 function handleAnswerSubmission(answer: string) {
+  console.log(answer);
   if (answer === correctAnswer) {
     correctCount.value++;
-  } else {
-    alert("wrong");
   }
   nextQuestion();
 }
@@ -71,4 +73,8 @@ function nextQuestion() {
 getQuestionsData();
 </script>
 
-<style></style>
+<style>
+.showCorrectCount {
+  visibility: hidden;
+}
+</style>
