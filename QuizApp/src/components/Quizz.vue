@@ -29,20 +29,21 @@ const answers = ref<string[]>([]);
 const question = ref<string>();
 const currentQuizId = ref<number>(0);
 const quizzes = ref<Quiz[]>([]);
+const correctCount = ref<number>(0);
 let correctAnswer: string;
 
 function handleAnswerSubmission(answer: string) {
   if (answer === correctAnswer) {
-    alert("Correct!!!!!");
+    correctCount.value++;
   } else {
-    alert("Wrong");
+    alert("wrong");
   }
   nextQuestion();
-  // function delay(time: number) {
-  //   return new Promise((resolve) => setTimeout(resolve, time));
-  // }
-  // delay(1000).then(() => nextQuestion());
 }
+// function delay(time: number) {
+//   return new Promise((resolve) => setTimeout(resolve, time));
+// }
+// delay(1000).then(() => nextQuestion());
 
 async function getQuestionsData() {
   const response = await axios.get(
@@ -53,16 +54,19 @@ async function getQuestionsData() {
 }
 
 function nextQuestion() {
-  const currentQuiz = quizzes.value[currentQuizId.value];
-  question.value = currentQuiz.question;
-  correctAnswer = currentQuiz.correct_answer;
-  answers.value = [...currentQuiz.incorrect_answers, correctAnswer];
-
-  function shuffle(array: string[]) {
-    array.sort(() => Math.random() - 0.5);
+  if (currentQuizId.value === quizzes.value.length) {
+    console.log("Quiz is done");
+  } else {
+    const currentQuiz = quizzes.value[currentQuizId.value];
+    question.value = currentQuiz.question;
+    correctAnswer = currentQuiz.correct_answer;
+    answers.value = [...currentQuiz.incorrect_answers, correctAnswer];
+    function shuffle(array: string[]) {
+      array.sort(() => Math.random() - 0.5);
+    }
+    shuffle(answers.value);
+    currentQuizId.value++;
   }
-  shuffle(answers.value); // array.value is a must, bcs it will be shown in template
-  currentQuizId.value++;
 }
 getQuestionsData();
 </script>
