@@ -22,6 +22,13 @@
       >
         Try Again Same Quiz
       </button>
+      <button
+        class="finalButtons"
+        :class="{ shown: didQuizEnd }"
+        @click="newQuiz()"
+      >
+        New Quiz
+      </button>
     </div>
   </main>
 </template>
@@ -81,6 +88,10 @@ function tryAgainSameQuiz() {
   nextQuestion();
 }
 
+function newQuiz() {
+  window.location.reload();
+}
+
 function nextQuestion() {
   if (currentQuizId.value === quizzes.value.length) {
     didQuizEnd.value = true;
@@ -104,7 +115,7 @@ getQuestionsData();
 .correctCount {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  margin: 10px;
+  margin: 3px;
   visibility: hidden;
 }
 

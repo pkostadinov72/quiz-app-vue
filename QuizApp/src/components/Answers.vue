@@ -25,7 +25,7 @@ const emits = defineEmits(["submitAnswer"]);
   font-weight: 600;
   border-radius: 3px;
   padding: 12px 24px;
-  margin: 8px;
+  margin: 8px 12px;
   border: 0;
   color: #3a4149;
   background: #e7ebee;

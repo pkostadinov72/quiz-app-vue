@@ -16,7 +16,8 @@ const props = defineProps<{
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 1.5rem;
-  margin: 10px;
+  margin: 10px 5px 30px;
+  text-align: left;
 }
 
 .didQuizEnd {
