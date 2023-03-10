@@ -43,8 +43,8 @@ import Question from "./Question.vue";
 
 type Quiz = {
   question: string;
-  correct_answer: string;
-  incorrect_answers: string[];
+  correctAnswer: string;
+  incorrectAnswers: string[];
 };
 
 const answers = ref<string[]>([]);
@@ -74,10 +74,8 @@ function shuffle(array: string[]) {
 }
 
 async function getQuestionsData() {
-  const response = await axios.get(
-    "https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple"
-  );
-  quizzes.value = response.data.results;
+  const response = await axios.get("https://the-trivia-api.com/api/questions/");
+  quizzes.value = response.data;
   nextQuestion();
 }
 
@@ -102,8 +100,8 @@ function nextQuestion() {
   } else {
     const currentQuiz = quizzes.value[currentQuizId.value];
     question.value = currentQuiz.question;
-    correctAnswer = currentQuiz.correct_answer;
-    answers.value = [...currentQuiz.incorrect_answers, correctAnswer];
+    correctAnswer = currentQuiz.correctAnswer;
+    answers.value = [...currentQuiz.incorrectAnswers, correctAnswer];
     shuffle(answers.value);
     currentQuizId.value++;
   }
@@ -115,7 +113,7 @@ getQuestionsData();
 .correctCount {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  margin: 3px;
+  margin: 8px;
   visibility: hidden;
 }
 
