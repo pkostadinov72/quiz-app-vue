@@ -15,6 +15,13 @@
           @submit-answer="handleAnswerSubmission($event)"
         ></Answers>
       </p>
+      <button
+        class="finalButtons"
+        :class="{ shown: didQuizEnd }"
+        @click="tryAgainSameQuiz()"
+      >
+        Try Again Same Quiz
+      </button>
     </div>
   </main>
 </template>
@@ -55,11 +62,22 @@ function handleAnswerSubmission(answer: string) {
 // }
 // delay(1000).then(() => nextQuestion());
 
+function shuffle(array: string[]) {
+  array.sort(() => Math.random() - 0.5);
+}
+
 async function getQuestionsData() {
   const response = await axios.get(
     "https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple"
   );
   quizzes.value = response.data.results;
+  nextQuestion();
+}
+
+function tryAgainSameQuiz() {
+  didQuizEnd.value = false;
+  currentQuizId.value = 0;
+  correctCount.value = 0;
   nextQuestion();
 }
 
@@ -75,9 +93,6 @@ function nextQuestion() {
     question.value = currentQuiz.question;
     correctAnswer = currentQuiz.correct_answer;
     answers.value = [...currentQuiz.incorrect_answers, correctAnswer];
-    function shuffle(array: string[]) {
-      array.sort(() => Math.random() - 0.5);
-    }
     shuffle(answers.value);
     currentQuizId.value++;
   }
@@ -91,6 +106,28 @@ getQuestionsData();
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   margin: 10px;
   visibility: hidden;
+}
+
+.finalButtons {
+  visibility: hidden;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 12px 24px;
+  margin: 8px;
+  border: 0;
+  color: #3a4149;
+  background: #e7ebee;
+  line-height: 1.15;
+  font-size: 15px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.finalButtons:hover {
+  background-color: #c7c7c7;
 }
 
 .shown {
