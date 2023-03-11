@@ -75,7 +75,7 @@ function shuffle(array: string[]) {
 
 async function getQuestionsData() {
   const response = await axios.get(
-    "https://the-trivia-api.com/api/questions?categories=general_knowledge&limit=5&difficulty=easy"
+    "https://the-trivia-api.com/api/questions?categories=general_knowledge,geography,food_and_drink,society_and_culture,sport_and_leisure,arts_and_literature,film_and_tv,history,science,music&limit=10"
   );
   quizzes.value = response.data;
   nextQuestion();
